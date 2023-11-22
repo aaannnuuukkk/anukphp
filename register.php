@@ -3,12 +3,12 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "training";
+$dbname = "bd";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 // проверка подключения
 if ($conn->connect_error) {
-    die("connect failed: " . $conn->connect_error)
+    die("connect failed: " . $conn->connect_error);
 }
 // обработка данных из формы регистрации
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

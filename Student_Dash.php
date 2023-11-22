@@ -1,19 +1,17 @@
 <?php
-// подключение к базе данных
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "training";
+$dbname = "bd";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// проверка подключения
 if ($conn->connect_error) {
-    die("connect failed: " . $conn->connect_error)
+    die("Ошибка подключения: " . $conn->connect_error);
 }
 
 //Получение предстоящих заданий из базы данных
-$query = "SELECT * FROM assignments WHERE deadline >= CURDATE() ORDER BY deadline";
+$query = "SELECT * FROM assigments WHERE deadline >= CURDATE() ORDER BY deadline";
 $result = $conn->query($query);
 
 $conn->close();

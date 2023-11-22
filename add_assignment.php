@@ -1,15 +1,13 @@
 <?php
-// подключение к базе данных
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "training";
+$dbname = "bd";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// проверка подключения
 if ($conn->connect_error) {
-    die("connect failed: " . $conn->connect_error)
+    die("connect failed: " . $conn->connect_error);
 }
 
 // обработка данных из формы добавления задания
@@ -19,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST["description"];
 
     // вставка данных в таблицу заданий
-    $query = "INSERT INTO assignments (title, deadline, description) VALUES ('$title', '$deadline', '$description')";
+    $query = "INSERT INTO assigments (title, deadline, description) VALUES ('$title', '$deadline', '$description')";
 
     if ($conn->query($query) === TRUE) {
         echo "Задание успешно добавлено";
