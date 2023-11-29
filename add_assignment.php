@@ -50,7 +50,7 @@ $conn->close();
             <input type="date" id="deadline" name="deadline" required>
 
             <label for="description">Описание задания:</label>
-            <textarea id="descriptiom" name="description" rows="4" required></textarea>
+            <textarea id="description" name="description" rows="4" required></textarea>
 
             <button type="submit">Добавить задание</button>
         </form>

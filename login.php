@@ -29,10 +29,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
 
     if ($result->num_rows == 1) {
-        $user = $result->fetch_assos();
+        $user = $result->fetch_assoc();
         if (password_verify($password, $user["password"])) {
             session_start();
             $_SESSION["user_id"] = $user["id"];
+            $role = $user["role"];
+
+            if ($role === 'teacher') {
+
+            } else if ($role === 'student') {
+                header("Location: Student_Dash.php");
+            exit;
+            }
             echo "Вход выполнен";
         } else {
             echo "Неверный пароль";

@@ -15,12 +15,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $email = $_POST["email"];
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    $role = $_POST["role"];
 
     // ВСТАВКА данных в таблицу пользователей
-    $query = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+    $query = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$password', '$role')";
 
     if ($conn->query($query) === TRUE) {
         echo "Вы зарегистрированы";
+        if ($role == 'teacher') {
+
+        } else if ($role == 'student') {
+            header("Location: Student_Dash.php");
+            exit;
+        }
     } else {
         echo "Ошибка: " . $conn->error;
     }
@@ -44,6 +51,12 @@ $conn->close();
         <h2>Регистрация</h2>
 
         <form action="register.php" method="post">
+            <label for="role">Роль:</label>
+            <select id="role" name="role">
+                <option value="teacher">Учитель</option>
+                <option value="student">Ученик</option>
+            </select>
+
             <label for="name">Имя:</label>
             <input type="text" id="name" name="name" required>
 
