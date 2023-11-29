@@ -1,66 +1,17 @@
 <?php
-// подключение к базе данных
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bd";
+session_start();
+include("./includes/connect.php");
+include("./functions/process_login.php");
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// проверка подключения
-if ($conn->connect_error) {
-    die("connect failed: " . $conn->connect_error);
-}
-
-// обработка данных из формы входа
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = isset($_POST["email"]) ? $_POST["email"] : "";
-    $password = isset($_POST["password"]) ? $_POST["password"] : "";
-
-    $query = "SELECT * FROM users WHERE  email=?";
-    $stmt = $conn->prepare($query);
-
-    if (!$stmt) {
-        die("Ошибка в запросе: " . $conn->error);
-    }
-
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 1) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user["password"])) {
-            session_start();
-            $_SESSION["user_id"] = $user["id"];
-            $role = $user["role"];
-
-            if ($role === 'teacher') {
-
-            } else if ($role === 'student') {
-                header("Location: Student_Dash.php");
-            exit;
-            }
-            echo "Вход выполнен";
-        } else {
-            echo "Неверный пароль";
-        }
-    } else {
-        echo "Пользователь с такими данными не существует";
-    }
-}
-
-//закрытие соединения с базой данных
 $conn->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+<?php
+        include("./templates/head.php"); 
+?>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Вход</title>
 </head>
 <body>

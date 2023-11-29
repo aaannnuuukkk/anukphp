@@ -1,14 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bd";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Ошибка подключения: " . $conn->connect_error);
-}
+session_start();
+include("./includes/connect.php");
 
 //Получение предстоящих заданий из базы данных
 $query = "SELECT * FROM assigments WHERE deadline >= CURDATE() ORDER BY deadline";
@@ -19,11 +11,11 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+<?php
+        include("./templates/head.php"); 
+?>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+
     <title>Студенческий дашборд</title>
 </head>
 <body>
