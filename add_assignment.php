@@ -18,7 +18,7 @@ $conn->close();
 
     <div class="container">
         <h2>Добавление заданий</h2>
-        <form action="dashboard.php" method="post">
+        <form action="" method="post">
             <label for="title">Название:</label>
             <input type="text" id="title" name="title" required>
 

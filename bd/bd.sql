@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 );
 
 CREATE TABLE IF NOT EXISTS `assignments` (
-    `id` INT PRIMARY KEY,
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `title` VARCHAR(100) NOT NULL,
     `deadline` DATE NOT NULL,
     `description` TEXT NOT NULL
@@ -24,3 +24,8 @@ CREATE TABLE IF NOT EXISTS `submitted_files` (
     `submission_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS `news` (
+    `id` INT(11) AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(20) NOT NULL,
+    `content` TEXT NOT NULL
+);
