@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (!(isset($_SESSION['role']) && ($_SESSION['role'] === 'student' || $_SESSION['role'] === 'admin'))) {
+    // Если у пользователя нет нужной роли, перенаправить его 
+    header("Location: index.php"); // Перенаправление на страницу
+    exit(); // Завершаем выполнение скрипта после перенаправления
+}
+
 include("./includes/connect.php");
 
 // Обработка данных загрузки файла
@@ -10,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_directory = "uploads/";
 
     // Генерация уникального имени файла
-    $unique_filename = uniqid() - '_' . $uploaded_file_name;
+    $unique_filename = uniqid() . '_' . $uploaded_file_name;
     $target_file = $target_directory . $unique_filename;
 
     // Сохранение информации о загруженном файле в базе данных
@@ -18,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($query) === TRUE) {
         // Перемещение загруженного файла в целевую директорию
-        if (move_uploaded_file($_FILES["file"]["tap_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
             echo "Файл загружен! УРА!";
             header ("Location: view_assignments.php");
         } else {
@@ -36,17 +42,20 @@ $conn->close();
     include("./templates/head.php");
     ?>
 <body>
+    <?php
+            include("./templates/navbar.php"); 
+    ?>
     <div class="container">
     <h2>Отправка задания</h2>
 
     <?php
     if (isset($_GET["id"])) {
         $assignment_id = $_GET["id"];
-        echo "<form action='submit_assignment.php' method='post' enctype='multipart/form-data'>";
+        echo "<form action='submit_assignments.php' method='post' enctype='multipart/form-data'>";
         echo "<input type='hidden' name='assignment_id' value='$assignment_id'>";
         echo "<label for='file'>Добавить файл:</label>";
-        echo "<input type='file' id='file' name='file' required>";
-        echo "<button type='submit'>Отправить</button>";
+        echo "<input type='file' id='file' class='form-control' name='file' required>";
+        echo "<button type='submit' class='btn btn-success'>Отправить</button>";
         echo "</form>";
     } else {
         echo "Такого задания нет";

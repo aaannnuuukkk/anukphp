@@ -1,16 +1,36 @@
+<?php
+session_start();
+include("./includes/connect.php");
+
+//Получение предстоящих заданий из базы данных
+$query = "SELECT * FROM assignments WHERE deadline >= CURDATE() ORDER BY deadline";
+$result = $conn->query($query);
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<?php
+        include("./templates/head.php"); 
+?>
     <link rel="stylesheet" href="./Style/main.css">
     <title>Главная страница</title>
 </head>
 <body>
-    <h1>Добро пожаловать!</h1>
+<?php
+    if (isset($_SESSION['role'])) {
+    // Если есть роль - показать кнопки
+    include("./templates/navbar.php"); 
 
-    <a href="login.php" class="button">Войти</a>
-    <a href="register.php" class="button">Зарегистрироваться</a>
+} else {
+    // Если нет роли - показать кнопки "Войти" и "Зарегистрироваться"
+    echo '<h1>Добро пожаловать!</h1>
+    ';
+    echo '<a href="login.php" class="button">Войти</a>
+    ';
+    echo '<a href="register.php" class="button">Зарегистрироваться</a>';
+}?>
 
     <h2>Последние новости</h2>
 
@@ -33,6 +53,6 @@
         ?>
     </div>
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
